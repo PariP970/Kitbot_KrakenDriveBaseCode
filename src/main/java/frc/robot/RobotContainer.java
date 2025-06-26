@@ -45,7 +45,10 @@ public class RobotContainer {
     private final SwerveSubsystem swerveSubsystem;
 
     // Control Inputs
-    private final Joystick controller = new Joystick(OIConstants.kOperatorControllerPort);
+    //private final Joystick controller = new Joystick(OIConstants.kOperatorControllerPort);
+    //private final Joystick controller = new Joystick(OIConstants.kOperatorControllerPort);
+    private final Joystick translateJoystick = new Joystick(OIConstants.kDriverTranslateStickPort);
+    private final Joystick rotateJoystick = new Joystick(OIConstants.kDriverRotateStickPort);
 
     private final ShooterSubsytem shooterSubsystem = new ShooterSubsytem();
 
@@ -57,11 +60,11 @@ public class RobotContainer {
 
         swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
             swerveSubsystem,
-            () -> -controller.getRawAxis(OIConstants.kDriverYAxis),
-            () -> -controller.getRawAxis(OIConstants.kDriverXAxis),
-            () -> -controller.getRawAxis(OIConstants.kDriverRotAxis),
-            () -> controller.getRawButton(OIConstants.kController_rightBumper),
-            () -> controller.getRawButton(OIConstants.kController_leftBumper)));
+            () -> -translateJoystick.getRawAxis(OIConstants.kDriverYAxis),
+            () -> -translateJoystick.getRawAxis(OIConstants.kDriverXAxis),
+            () -> -rotateJoystick.getRawAxis(OIConstants.kDriverRotAxis),
+            () -> translateJoystick.getRawButton(OIConstants.kController_rightBumper),
+            () -> translateJoystick.getRawButton(OIConstants.kController_leftBumper)));
 
 
         configureBindings();
@@ -71,9 +74,9 @@ public class RobotContainer {
 
     private void configureBindings() {
 
-        new JoystickButton(controller, OIConstants.kDriverResetGyroButtonId).onTrue(swerveSubsystem.zeroHeading());
-        new JoystickButton(controller, 2).onTrue(shooterSubsystem.out()).onFalse(shooterSubsystem.stopCommand());
-        new JoystickButton(controller, 3).onTrue(shooterSubsystem.in()).onFalse(shooterSubsystem.stopCommand());
+        new JoystickButton(translateJoystick, OIConstants.kDriverResetGyroButtonId).onTrue(swerveSubsystem.zeroHeading());
+        new JoystickButton(translateJoystick, 3).onTrue(shooterSubsystem.out()).onFalse(shooterSubsystem.stopCommand());
+        new JoystickButton(translateJoystick, 4).onTrue(shooterSubsystem.in()).onFalse(shooterSubsystem.stopCommand());
     
 
     
