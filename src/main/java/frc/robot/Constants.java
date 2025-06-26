@@ -15,6 +15,7 @@ public class Constants {
         public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter / 60.0;
         public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad / 60.0;
         public static final double kPTurning = 0.2; // For PID
+        
     }
 
     public static final class DriveConstants {
@@ -60,7 +61,7 @@ public class Constants {
 
         // Robot speeds
         public static final double kPhysicalMaxSpeedMetersPerSecond = 5.2; // PHYSICAL max speed of the modules (safety cap)
-        public static final double kTeleDriveMaxSpeedMetersPerSecond = 2; // Max speed set for teleop
+        public static final double kTeleDriveMaxSpeedMetersPerSecond = 2.6; // Max speed set for teleop
 
         // Robot turning speeds
         public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * Math.PI;
@@ -71,7 +72,7 @@ public class Constants {
         public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
 
         // Robot speed modifiers
-        public static final double kTeleopBoostModifier = 1.5;
+        public static final double kTeleopBoostModifier = 2;
         public static final double kTeleopSlowModifier = 0.5;
     }
 
