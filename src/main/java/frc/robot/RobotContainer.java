@@ -26,6 +26,7 @@ import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.Constants.OIConstants;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.ShooterSubsytem; // IMPORTANT: Import your IntakeSubsystem
 
@@ -47,8 +48,9 @@ public class RobotContainer {
     // Control Inputs
     //private final Joystick controller = new Joystick(OIConstants.kOperatorControllerPort);
     //private final Joystick controller = new Joystick(OIConstants.kOperatorControllerPort);
-    private final Joystick translateJoystick = new Joystick(OIConstants.kDriverTranslateStickPort);
-    private final Joystick rotateJoystick = new Joystick(OIConstants.kDriverRotateStickPort);
+    // private final Joystick translateJoystick = new Joystick(OIConstants.kDriverTranslateStickPort);
+    // private final Joystick rotateJoystick = new Joystick(OIConstants.kDriverRotateStickPort);
+    private final Joystick driverController = new Joystick(0);
 
     private final ShooterSubsytem shooterSubsystem = new ShooterSubsytem();
 
@@ -60,11 +62,11 @@ public class RobotContainer {
 
         swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
             swerveSubsystem,
-            () -> -translateJoystick.getRawAxis(OIConstants.kDriverYAxis),
-            () -> -translateJoystick.getRawAxis(OIConstants.kDriverXAxis),
-            () -> -rotateJoystick.getRawAxis(OIConstants.kDriverRotAxis),
-            () -> translateJoystick.getRawButton(OIConstants.kDriverBoostButtonId), 
-            () -> translateJoystick.getRawButton(OIConstants.kController_leftBumper)));
+            () -> driverController.getRawAxis(OIConstants.kDriverYAxis),
+            () -> driverController.getRawAxis(OIConstants.kDriverXAxis),
+            () -> -driverController.getRawAxis(OIConstants.kDriverRotAxis),
+            () -> driverController.getRawButton(OIConstants.kDriverBoostButtonId), 
+            () -> driverController.getRawButton(OIConstants.kController_leftBumper)));
 
 
         configureBindings();
@@ -73,10 +75,10 @@ public class RobotContainer {
     
 
     private void configureBindings() {
-
-        new JoystickButton(translateJoystick, OIConstants.kDriverResetGyroButtonId).onTrue(swerveSubsystem.zeroHeading());
-        new JoystickButton(translateJoystick, 3).onTrue(shooterSubsystem.out()).onFalse(shooterSubsystem.stopCommand());
-        new JoystickButton(translateJoystick, 4).onTrue(shooterSubsystem.in()).onFalse(shooterSubsystem.stopCommand());
+        new JoystickButton(driverController, OIConstants.kController_start)
+            .onTrue(new SequentialCommandGroup(swerveSubsystem.zeroHeading(), swerveSubsystem.zeroEverything(), swerveSubsystem.zeroHeading(), swerveSubsystem.zeroEverything()));
+        new JoystickButton(driverController, OIConstants.kController_rightTrigger).onTrue(shooterSubsystem.out()).onFalse(shooterSubsystem.stopCommand());
+        new JoystickButton(driverController, OIConstants.kController_leftTrigger).onTrue(shooterSubsystem.in()).onFalse(shooterSubsystem.stopCommand());
     
 
     
