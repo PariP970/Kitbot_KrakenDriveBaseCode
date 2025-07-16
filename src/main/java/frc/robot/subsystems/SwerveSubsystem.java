@@ -1,6 +1,10 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.studica.frc.AHRS;
 
 import edu.wpi.first.math.VecBuilder;
@@ -103,6 +107,38 @@ public class SwerveSubsystem extends SubsystemBase {
             }
         }).start();
 
+        // Path planner auto builder
+        try {
+            RobotConfig config = RobotConfig.fromGUISettings();
+
+            // Configure AutoBuilder
+            AutoBuilder.configure(
+                this::getPose, 
+                this::resetPose, 
+                this::getRobotRelativeSpeeds, 
+                this::driveRobotRelative, 
+                new PPHolonomicDriveController(
+                    new PIDConstants(2.0, 0.0, 0.0), // Translation PID constants
+                    new PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
+                ),
+                config,
+                () -> {
+                    // Boolean supplier that controls when the path will be mirrored for the red alliance
+                    // This will flip the path being followed to the red side of the field.
+                    // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+                    var alliance = DriverStation.getAlliance();
+                    if (alliance.isPresent()) {
+                        return alliance.get() == DriverStation.Alliance.Red;
+                    }
+                    return false;
+                },
+                this
+            );
+        } catch (Exception e) {
+            DriverStation.reportError("Failed to load PathPlanner config and configure AutoBuilder", e.getStackTrace());
+        }
+
         // AdvantageScope
         publisher = NetworkTableInstance.getDefault()
             .getStructTopic("Robot Pose", Pose2d.struct).publish();
@@ -146,6 +182,23 @@ public class SwerveSubsystem extends SubsystemBase {
         return Rotation2d.fromDegrees(getHeading());
     }
 
+    public ChassisSpeeds getRobotRelativeSpeeds() {
+        return DriveConstants.kDriveKinematics.toChassisSpeeds(
+            new SwerveModuleState[] {
+                frontLeft.getState(),
+                frontRight.getState(),
+                backLeft.getState(),
+                backRight.getState()
+            }
+        );
+    }
+
+    public void driveRobotRelative(ChassisSpeeds speed ) {
+        //ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(speed, 0.02); is this needed?
+        SwerveModuleState states[] = DriveConstants.kDriveKinematics.toSwerveModuleStates(speed);
+        setModuleStates(states);
+    }
+
     public void periodic(){
         // Update pose estimator
         m_poseEstimator.update(getRotation2d(),
@@ -174,7 +227,7 @@ public class SwerveSubsystem extends SubsystemBase {
         }
         if (!doRejectUpdate) {
             // m_poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(0.5 * mt2a.avgTagDist, 0.5 * mt2a.avgTagDist,9999999));
-            m_poseEstimator.addVisionMeasurement(mt2a.pose, mt2a.timestampSeconds, VecBuilder.fill(0.00045 * mt2a.avgTagDist * mt2a.avgTagDist, 0.00045 * mt2a.avgTagDist * mt2a.avgTagDist,9999999));
+            m_poseEstimator.addVisionMeasurement(mt2a.pose, mt2a.timestampSeconds, VecBuilder.fill(0.005* mt2a.avgTagDist * mt2a.avgTagDist, 0.005 * mt2a.avgTagDist * mt2a.avgTagDist,9999999));
             limelightPublisher.set(mt2a.pose);
         }
         

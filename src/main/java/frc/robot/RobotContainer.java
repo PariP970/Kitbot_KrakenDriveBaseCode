@@ -9,6 +9,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 
 // ===== Input Devices ===== //
 import edu.wpi.first.wpilibj.Joystick;
@@ -68,7 +70,11 @@ public class RobotContainer {
             () -> driverController.getRawButton(OIConstants.kDriverBoostButtonId), 
             () -> driverController.getRawButton(OIConstants.kController_leftBumper)));
 
-
+        // Register Named Commands
+        NamedCommands.registerCommand("Reset Gyro", new SequentialCommandGroup(swerveSubsystem.zeroHeading(), swerveSubsystem.zeroEverything(), swerveSubsystem.zeroHeading(), swerveSubsystem.zeroEverything()));
+        NamedCommands.registerCommand("Coral Out", shooterSubsystem.out());
+        NamedCommands.registerCommand("Coral In", shooterSubsystem.in());
+        NamedCommands.registerCommand("Coral Stop", shooterSubsystem.stopCommand());
         configureBindings();
     }
 
@@ -88,7 +94,7 @@ public class RobotContainer {
 
 
     public Command getAutonomousCommand() {
-        return Commands.print("No autonomous command configured");
+        return new PathPlannerAuto("New Auto");
     }
     
 }

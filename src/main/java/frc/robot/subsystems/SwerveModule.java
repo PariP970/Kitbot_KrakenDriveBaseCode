@@ -50,11 +50,11 @@ public class SwerveModule extends SubsystemBase{
                 turningMotor = new TalonFX(turningMotorId,"*");
         
                 driveMotorConfig.MotorOutput.Inverted = driveMotorReversed ? InvertedValue.CounterClockwise_Positive : InvertedValue.Clockwise_Positive;
-                driveMotorConfig.Feedback.SensorToMechanismRatio = ModuleConstants.kDriveMotorGearRatio;
+                driveMotorConfig.Feedback.SensorToMechanismRatio = 1 / ModuleConstants.kDriveEncoderRot2Meter;
                 driveMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
                 turningMotorConfig.MotorOutput.Inverted = turningMotorReversed ? InvertedValue.CounterClockwise_Positive : InvertedValue.Clockwise_Positive;
-                turningMotorConfig.Feedback.SensorToMechanismRatio = ModuleConstants.kTurningMotorGearRatio;
+                turningMotorConfig.Feedback.SensorToMechanismRatio = 1 / ModuleConstants.kTurningEncoderRot2Rad;
                 turningMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
                 turningPidController = new PIDController(ModuleConstants.kPTurning, 0, 0);

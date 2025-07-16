@@ -8,8 +8,8 @@ public class Constants {
     public static final class ModuleConstants {
         public static final double kWheelDiameterMeters = Units.inchesToMeters(4);
         //public static final double kDriveMotorGearRatio = (Math.PI*kWheelDiameterMeters) / 5.9; // Drive ratio of ? : 1
-        public static final double kDriveMotorGearRatio =  5.9/ 1; // Drive ratio of ? : 1
-        public static final double kTurningMotorGearRatio = 18.75 / (Math.PI * 2); // Turning ratio of (? / ?) : 1
+        public static final double kDriveMotorGearRatio =  5.9 / 1.0; // Drive ratio of ? : 1
+        public static final double kTurningMotorGearRatio = 1 / 18.75; // Turning ratio of (? / ?) : 1 // 18.75 / (Math.PI * 2)
         public static final double kDriveEncoderRot2Meter = Math.PI * kWheelDiameterMeters / kDriveMotorGearRatio;
         public static final double kTurningEncoderRot2Rad = kTurningMotorGearRatio * 2 * Math.PI;
         public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter / 60.0;
