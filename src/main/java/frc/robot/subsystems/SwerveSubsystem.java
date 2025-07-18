@@ -227,7 +227,7 @@ public class SwerveSubsystem extends SubsystemBase {
         }
         if (!doRejectUpdate) {
             // m_poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(0.5 * mt2a.avgTagDist, 0.5 * mt2a.avgTagDist,9999999));
-            m_poseEstimator.addVisionMeasurement(mt2a.pose, mt2a.timestampSeconds, VecBuilder.fill(0.005* mt2a.avgTagDist * mt2a.avgTagDist, 0.005 * mt2a.avgTagDist * mt2a.avgTagDist,9999999));
+            m_poseEstimator.addVisionMeasurement(mt2a.pose, mt2a.timestampSeconds, VecBuilder.fill(0.0005* mt2a.avgTagDist * mt2a.avgTagDist, 0.0005 * mt2a.avgTagDist * mt2a.avgTagDist,9999999));
             limelightPublisher.set(mt2a.pose);
         }
         

@@ -13,7 +13,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Start to Top Right"
+            "pathName": "Start to Top Left"
           }
         },
         {
@@ -31,7 +31,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Top Right to Station"
+            "pathName": "Top Left to Station"
           }
         },
         {
@@ -43,7 +43,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Station to Bottom Right"
+            "pathName": "Station to Bottom Left"
           }
         },
         {
@@ -61,7 +61,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Bottom Right to Station"
+            "pathName": "Bottom Left to Station"
           }
         },
         {
@@ -73,7 +73,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Station to Bottom Right"
+            "pathName": "Station to Bottom Left"
           }
         },
         {
@@ -91,7 +91,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Bottom Right to Station"
+            "pathName": "Bottom Left to Station"
           }
         },
         {
@@ -103,7 +103,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Right Station to Bottom"
+            "pathName": "Left Station to Bottom"
           }
         },
         {
@@ -122,6 +122,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Autos for LOW",
+  "folder": "Autos for HIGH",
   "choreoAuto": false
 }
