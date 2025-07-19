@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -74,7 +75,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
 
 
-    public final GenericEntry sb_gyro;
+    public final GenericEntry sb_gyro, sb_alliance;
     public final Pigeon2 pidgey = new Pigeon2(17, "*");
 
     public final SwerveDrivePoseEstimator m_poseEstimator;
@@ -128,7 +129,7 @@ public class SwerveSubsystem extends SubsystemBase {
                     // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
 
                     var alliance = DriverStation.getAlliance();
-                    if (alliance.isPresent()) {
+                    if (alliance.isPresent() && alliance.get() != null) {
                         return alliance.get() == DriverStation.Alliance.Red;
                     }
                     return false;
@@ -147,10 +148,17 @@ public class SwerveSubsystem extends SubsystemBase {
             .getStructTopic("Robot Pose from Limelight", Pose2d.struct).publish();
 
         sb_gyro = Shuffleboard.getTab("Driver")
-        .add("Gyro",0.0)
-        .withPosition(0, 0)
-        .withSize(4,3)
-        .getEntry();
+            .add("Gyro",0.0)
+            .withPosition(0, 0)
+            .withSize(4,3)
+            .getEntry();
+
+        sb_alliance = Shuffleboard.getTab("Driver")
+            .add("Alliance OK", DriverStation.getAlliance().get() != null)
+            .withWidget(BuiltInWidgets.kBooleanBox)
+            .withPosition(3, 6)
+            .withSize(3,1)
+            .getEntry();
 
         Shuffleboard.getTab("Driver")
             .add("Field", m_field)
@@ -241,6 +249,11 @@ public class SwerveSubsystem extends SubsystemBase {
     public Command zeroHeading() {
         System.out.println("Gyro Reset");
         return Commands.runOnce(() -> {
+            if (DriverStation.getAlliance().get() == null) {
+                System.out.println("========== HEADING - ALLIANCE DETECTED AS NULL ==========");
+                sb_alliance.setBoolean(false);
+                return;
+            }
             int angleAdjustment = DriverStation.getAlliance().get() == DriverStation.Alliance.Red ? 0 : 180;
             pidgey.reset();
             pidgey.setYaw(angleAdjustment);
@@ -255,6 +268,11 @@ public class SwerveSubsystem extends SubsystemBase {
     public Command zeroEverything() {
         System.out.println("===== Zeroed Everything =====");
         return Commands.runOnce(() -> {
+            if (DriverStation.getAlliance().get() == null) {
+                System.out.println("========== EVERYTHING - ALLIANCE DETECTED AS NULL ==========");
+                sb_alliance.setBoolean(false);
+                return;
+            }
             int angleAdjustment = DriverStation.getAlliance().get() == DriverStation.Alliance.Red ? 0 : 180;
             pidgey.reset();
             pidgey.setYaw(angleAdjustment);

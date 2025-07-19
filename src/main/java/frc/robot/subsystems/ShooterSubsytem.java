@@ -45,13 +45,13 @@ public class ShooterSubsytem extends SubsystemBase {
   }
 
   public void spinOut(){
-    motor.set(1);
+    motor.set(0.5);
   //makes motor spin outward
   }
   // makes shooter spin in
   
   public void spinIn(){
-    motor.set(-1);
+    motor.set(-0.5);
   
   //-1 makes motor spin inwards
   }

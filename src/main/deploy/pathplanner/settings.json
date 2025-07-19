@@ -3,8 +3,9 @@
   "robotLength": 0.9,
   "holonomicMode": true,
   "pathFolders": [
+    "Auto Paths HIGH",
     "Auto Paths LOW",
-    "Auto Paths HIGH"
+    "Auto Paths 3 Coral"
   ],
   "autoFolders": [
     "Autos for LOW",

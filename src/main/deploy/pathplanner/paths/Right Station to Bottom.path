@@ -9,7 +9,7 @@
       "prevControl": null,
       "nextControl": {
         "x": 2.007012782168807,
-        "y": 2.3643012972981934
+        "y": 2.364301297298194
       },
       "isLocked": false,
       "linkedName": "Right Station"
@@ -48,7 +48,7 @@
       "minWaypointRelativePos": 0,
       "maxWaypointRelativePos": 0.2953020134228185,
       "constraints": {
-        "maxVelocity": 4.0,
+        "maxVelocity": 2.0,
         "maxAcceleration": 3.5,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
