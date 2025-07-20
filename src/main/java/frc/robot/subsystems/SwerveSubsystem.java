@@ -255,7 +255,7 @@ public class SwerveSubsystem extends SubsystemBase {
                 return;
             }
             int angleAdjustment = DriverStation.getAlliance().get() == DriverStation.Alliance.Red ? 0 : 180;
-            pidgey.reset();
+            // pidgey.reset();
             pidgey.setYaw(angleAdjustment);
         }); // Returns a command to be used on button press
     }
@@ -274,7 +274,7 @@ public class SwerveSubsystem extends SubsystemBase {
                 return;
             }
             int angleAdjustment = DriverStation.getAlliance().get() == DriverStation.Alliance.Red ? 0 : 180;
-            pidgey.reset();
+            // pidgey.reset();
             pidgey.setYaw(angleAdjustment);
             m_poseEstimator.resetRotation(getRotation2d());
         });

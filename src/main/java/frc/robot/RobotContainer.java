@@ -94,7 +94,7 @@ public class RobotContainer {
 
 
     public Command getAutonomousCommand() {
-        return new PathPlannerAuto("4 Coral Auto LOW");
+        return new PathPlannerAuto("1 Coral MID");
     }
     
 }
